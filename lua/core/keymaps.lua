@@ -154,3 +154,87 @@ vim.keymap.set('n', '<leader>of', ':s/\\(# \\)[^_]*_/\\1/ | s/-/ /g<cr>')
 vim.keymap.set('n', '<leader>ok', ":!mv '%:p' /Users/leonardodias/Documents/obsidian-vault/zettelkasten<cr>:bd<cr>")
 -- delete file in current buffer
 vim.keymap.set('n', '<leader>odd', ":!rm '%:p'<cr>:bd<cr>")
+
+-- Delete image file under cursor using trash app (macOS)
+vim.keymap.set('n', '<leader>id', function()
+  local function get_image_path()
+    -- Get the current line
+    local line = vim.api.nvim_get_current_line()
+    -- Pattern to match image path in Markdown
+    local image_pattern = '%[.-%]%((.-)%)'
+    -- Extract relative image path
+    local _, _, image_path = string.find(line, image_pattern)
+
+    return image_path
+  end
+
+  -- Get the image path
+  local image_path = get_image_path()
+
+  if image_path then
+    -- Check if the image path starts with "http" or "https"
+    if string.sub(image_path, 1, 4) == 'http' then
+      vim.api.nvim_echo({
+        { 'URL image cannot be deleted from disk.', 'WarningMsg' },
+      }, false, {})
+    else
+      -- Construct absolute image path
+      local current_file_path = vim.fn.expand '%:p:h'
+      local absolute_image_path = current_file_path .. '/' .. image_path
+
+      -- Check if trash utility is installed
+      if vim.fn.executable 'trash' == 0 then
+        vim.api.nvim_echo({
+          { '- Trash utility not installed. Make sure to install it first\n', 'ErrorMsg' },
+          { '- In macOS run `brew install trash`\n', nil },
+        }, false, {})
+        return
+      end
+
+      -- Prompt for confirmation before deleting the image
+      vim.ui.input({
+        prompt = 'Delete image file? (y/n) ',
+      }, function(input)
+        if input == 'y' or input == 'Y' then
+          -- Delete the image file using trash app
+          local success, _ = pcall(function()
+            vim.fn.system { 'trash', vim.fn.fnameescape(absolute_image_path) }
+          end)
+
+          if success then
+            vim.api.nvim_echo({
+              { 'Image file deleted from disk:\n', 'Normal' },
+              { absolute_image_path, 'Normal' },
+            }, false, {})
+            -- I'll refresh the images, but will clear them first
+            -- I'm using [[ ]] to escape the special characters in a command
+            vim.cmd [[lua require("image").clear()]]
+            -- Reloads the file to reflect the changes
+            vim.cmd 'edit!'
+          else
+            vim.api.nvim_echo({
+              { 'Failed to delete image file:\n', 'ErrorMsg' },
+              { absolute_image_path, 'ErrorMsg' },
+            }, false, {})
+          end
+        else
+          vim.api.nvim_echo({
+            { 'Image deletion canceled.', 'Normal' },
+          }, false, {})
+        end
+      end)
+    end
+  else
+    vim.api.nvim_echo({
+      { 'No image found under the cursor', 'WarningMsg' },
+    }, false, {})
+  end
+end, { desc = '(macOS) Delete image file under cursor' })
+
+-- Set up a keymap to clear all images in the current buffer
+vim.keymap.set('n', '<leader>ic', function()
+  -- This is the command that clears the images
+  -- I'm using [[ ]] to escape the special characters in a command
+  vim.cmd [[lua require("image").clear()]]
+  print 'Images cleared'
+end, { desc = 'Clear images' })
