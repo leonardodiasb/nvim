@@ -20,14 +20,16 @@ return {
       })
     end,
   },
-  {
-    'morhetz/gruvbox',
-  },
+  'shaunsingh/nord.nvim',
+  -- {
+  --   'morhetz/gruvbox',
+  -- },
+  'gruvbox-community/gruvbox',
   'neanias/everforest-nvim',
   'sho-87/kanagawa-paper.nvim',
   'dracula/vim',
   'EdenEast/nightfox.nvim',
-  'sainnhe/gruvbox-material',
+  -- 'sainnhe/gruvbox-material',
   'rebelot/kanagawa.nvim',
 
   -- theme onedarkpro
