@@ -114,7 +114,9 @@ keymap('n', '<leader>rw', '<C-w>r', opts)
 
 -- Paste without losing the contents of the register
 keymap('n', '<leader>p', '_dP', opts)
---
+
+-- Noice dismiss message
+keymap('n', '<leader>nd', ':Noice dismiss<CR>', opts)
 
 -- Press 'S' for quick find/replace for the word under the cursor
 vim.keymap.set('n', 'S', function()
