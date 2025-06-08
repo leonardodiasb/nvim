@@ -11,8 +11,10 @@ return {
         ensure_installed = {
           'c',
           'cpp',
+          'css',
           'go',
           'lua',
+          'html',
           'python',
           'rust',
           'tsx',
