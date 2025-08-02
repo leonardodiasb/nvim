@@ -1,4 +1,3 @@
 return {
-  'gregsexton/matchtag',
-
+    'gregsexton/matchtag',
 }

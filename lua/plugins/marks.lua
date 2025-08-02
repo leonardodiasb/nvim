@@ -1,4 +1,4 @@
 return {
-   -- Marks signature
-   'kshenoy/vim-signature',
+    -- Marks signature
+    'kshenoy/vim-signature',
 }
