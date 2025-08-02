@@ -21,17 +21,18 @@ return {
     end,
   },
   'shaunsingh/nord.nvim',
-  -- {
-  --   'morhetz/gruvbox',
-  -- },
-  'gruvbox-community/gruvbox',
+  {
+    'morhetz/gruvbox',
+  },
+  -- 'gruvbox-community/gruvbox',
   'neanias/everforest-nvim',
   'sho-87/kanagawa-paper.nvim',
   'dracula/vim',
   'EdenEast/nightfox.nvim',
   -- 'sainnhe/gruvbox-material',
   'rebelot/kanagawa.nvim',
-
+  'webhooked/kanso.nvim',
+  'vague2k/vague.nvim',
   -- theme onedarkpro
   'olimorris/onedarkpro.nvim',
   -- 'navarasu/onedark.nvim',
