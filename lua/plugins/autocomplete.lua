@@ -55,11 +55,6 @@ return {
                 --
                 -- No, but seriously. Please read `:help ins-completion`, it is really good!
                 mapping = cmp.mapping.preset.insert({
-                    -- Select the [n]ext item
-                    ['<C-n>'] = cmp.mapping.select_next_item(),
-                    -- Select the [p]revious item
-                    ['<C-p>'] = cmp.mapping.select_prev_item(),
-
                     -- Scroll the documentation window [b]ack / [f]orward
                     ['<C-b>'] = cmp.mapping.scroll_docs(-4),
                     ['<C-f>'] = cmp.mapping.scroll_docs(4),
@@ -80,22 +75,24 @@ return {
                     --  completions whenever it has completion options available.
                     ['<C-Space>'] = cmp.mapping.complete({}),
 
-                    -- Think of <c-l> as moving to the right of your snippet expansion.
-                    --  So if you have a snippet that's like:
-                    --  function $name($args)
-                    --    $body
-                    --  end
-                    --
-                    -- <c-l> will move you to the right of each of the expansion locations.
-                    -- <c-h> is similar, except moving you backwards.
-                    ['<C-l>'] = cmp.mapping(function()
-                        if luasnip.expand_or_locally_jumpable() then
+                    -- Use C-n and C-p for both completion menu AND snippet navigation
+                    ['<C-n>'] = cmp.mapping(function(fallback)
+                        if cmp.visible() then
+                            cmp.select_next_item()
+                        elseif luasnip.expand_or_locally_jumpable() then
                             luasnip.expand_or_jump()
+                        else
+                            fallback()
                         end
                     end, { 'i', 's' }),
-                    ['<C-h>'] = cmp.mapping(function()
-                        if luasnip.locally_jumpable(-1) then
+                    
+                    ['<C-p>'] = cmp.mapping(function(fallback)
+                        if cmp.visible() then
+                            cmp.select_prev_item()
+                        elseif luasnip.locally_jumpable(-1) then
                             luasnip.jump(-1)
+                        else
+                            fallback()
                         end
                     end, { 'i', 's' }),
 
