@@ -21,9 +21,7 @@ return {
         end,
     },
     'shaunsingh/nord.nvim',
-    {
-        'morhetz/gruvbox',
-    },
+    'ellisonleao/gruvbox.nvim',
     -- 'gruvbox-community/gruvbox',
     'neanias/everforest-nvim',
     'sho-87/kanagawa-paper.nvim',
