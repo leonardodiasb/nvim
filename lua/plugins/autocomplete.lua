@@ -85,7 +85,7 @@ return {
                             fallback()
                         end
                     end, { 'i', 's' }),
-                    
+
                     ['<C-p>'] = cmp.mapping(function(fallback)
                         if cmp.visible() then
                             cmp.select_prev_item()
@@ -108,6 +108,12 @@ return {
                     { name = 'nvim_lsp' },
                     { name = 'luasnip' },
                     { name = 'path' },
+                },
+            })
+            cmp.setup.filetype({ 'sql' }, {
+                sources = {
+                    { name = 'vim-dadbod-completion' },
+                    { name = 'buffer' },
                 },
             })
             vim.diagnostic.config({

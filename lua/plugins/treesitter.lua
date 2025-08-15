@@ -16,6 +16,8 @@ return {
                     'lua',
                     'html',
                     'python',
+                    'ruby',
+                    'regex',
                     'rust',
                     'tsx',
                     'javascript',
@@ -26,6 +28,8 @@ return {
                     'markdown',
                     'markdown_inline',
                     'svelte',
+                    'sql',
+                    'json',
                 },
 
                 -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
