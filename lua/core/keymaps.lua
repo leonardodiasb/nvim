@@ -27,7 +27,7 @@ vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = tr
 -- -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
-vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
+vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 
 local opts = { noremap = true, silent = true }
@@ -84,9 +84,6 @@ keymap('v', 'p', '"_dP', opts)
 -- Move text up and down
 keymap('x', 'J', ":move '>+1<CR>gv-gv", opts)
 keymap('x', 'K', ":move '<-2<CR>gv-gv", opts)
-
--- Open netrw
-keymap('n', '<leader>e', ':Explore<CR>', opts)
 
 -- My keymaps from vimrc
 keymap('n', '<leader>n', ':noh<CR>', opts)
