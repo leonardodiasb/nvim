@@ -37,11 +37,27 @@ return {
                 javascriptreact = { 'prettier', 'eslint' },
                 typescript = { 'prettier', 'eslint' },
                 typescriptreact = { 'prettier', 'eslint' },
+                eruby = { 'erb_format' }, -- Only for .html.erb and .erb files
+                ruby = { 'rubocop' },
                 -- Conform can also run multiple formatters sequentially
                 -- python = { "isort", "black" },
                 --
                 -- You can use 'stop_after_first' to run the first available formatter from the list
                 -- javascript = { "prettierd", "prettier", stop_after_first = true },
+            },
+            formatters = {
+                -- Custom erb formatter using htmlbeautifier gem
+                erb_format = {
+                    command = 'htmlbeautifier',
+                    args = { 
+                        '--tab-stops', '4'  -- Use 4 spaces for indentation
+                    },
+                    stdin = true,
+                },
+                -- Configure prettier to use 4 spaces for JSON
+                prettier = {
+                    prepend_args = { '--tab-width', '4', '--use-tabs', 'false' },
+                },
             },
         },
     },

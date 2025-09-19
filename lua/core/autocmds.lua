@@ -12,6 +12,74 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     end,
 })
 
+-- Ensure proper filetype detection for ERB files
+vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
+    desc = 'Set filetype for ERB files',
+    group = vim.api.nvim_create_augroup('erb-filetype', { clear = true }),
+    pattern = { '*.erb', '*.html.erb', '*.css.erb' },
+    callback = function()
+        vim.bo.filetype = 'eruby'
+    end,
+})
+
+-- Special handling for JSON.erb files - treat as JSON files for highlighting only
+vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
+    desc = 'Treat JSON.erb files as JSON files for syntax highlighting',
+    group = vim.api.nvim_create_augroup('json-erb-filetype', { clear = true }),
+    pattern = { '*.json.erb' },
+    callback = function(ev)
+        vim.bo[ev.buf].filetype = 'json'
+    end,
+})
+
+-- Special handling for JS.erb files - treat as JavaScript with ERB support  
+vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
+    desc = 'Set filetype for JS ERB files',
+    group = vim.api.nvim_create_augroup('js-erb-filetype', { clear = true }),
+    pattern = { '*.js.erb' },
+    callback = function()
+        vim.bo.filetype = 'javascript'
+        -- Load ERB highlighting within JavaScript files
+        vim.schedule(function()
+            vim.cmd('runtime! syntax/eruby.vim')
+        end)
+    end,
+})
+
+-- Custom command to format all ERB files in project
+vim.api.nvim_create_user_command('FormatAllERB', function()
+    local conform = require('conform')
+    local files = vim.fn.glob('**/*.erb', false, true)
+    
+    if #files == 0 then
+        vim.notify('No ERB files found in project', vim.log.levels.INFO)
+        return
+    end
+    
+    local formatted_count = 0
+    for _, file in ipairs(files) do
+        -- Skip hidden directories, node_modules, and JSON.erb files
+        if not file:match('/%.') and not file:match('node_modules') and not file:match('%.json%.erb$') then
+            local bufnr = vim.fn.bufadd(file)
+            vim.fn.bufload(bufnr)
+            
+            conform.format({
+                bufnr = bufnr,
+                formatters = { 'erb_format' },
+                timeout_ms = 2000,
+            }, function(err)
+                if not err then
+                    vim.api.nvim_buf_call(bufnr, function()
+                        vim.cmd('write')
+                    end)
+                    formatted_count = formatted_count + 1
+                    vim.notify(string.format('Formatted %d HTML ERB files (skipped JSON.erb)', formatted_count), vim.log.levels.INFO)
+                end
+            end)
+        end
+    end
+end, { desc = 'Format all HTML ERB files in project (excludes JSON.erb)' })
+
 -- -- [[ Highlight on yank ]]
 -- -- See `:help vim.highlight.on_yank()`
 -- local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })

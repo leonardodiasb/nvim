@@ -178,6 +178,8 @@ return {
                 rubocop = {
                     cmd = { 'bundle', 'exec', 'rubocop', '--lsp' },
                 },
+                -- Note: erb_lint LSP is not available through Mason
+                -- ERB linting is handled through nvim-lint plugin instead
                 lua_ls = {
                     -- cmd = {...},
                     -- filetypes = { ...},
@@ -209,6 +211,8 @@ return {
                 'stylua', -- Used to format Lua code
                 'codelldb', -- Debugger for C/C++/Rust
                 'delve', -- Go debugger
+                -- Note: erb_lint and erb-formatter are Ruby gems, install with: gem install erb_lint erb-formatter
+                -- Note: htmlbeautifier is a Ruby gem, install with: gem install htmlbeautifier
             })
             require('mason-tool-installer').setup({ ensure_installed = ensure_installed })
 
