@@ -16,6 +16,10 @@ return {
                     hide_gitignored = false, -- Don't hide git ignored files
                     hide_hidden = false, -- Don't hide hidden files (Windows)
                 },
+                follow_current_file = {
+                    enabled = true, -- This will find and focus the file in the active buffer every time
+                    leave_dirs_open = false, -- `false` closes auto expanded dirs, such as with `:Neotree reveal`
+                },
             },
             window = {
                 mappings = {
@@ -28,11 +32,26 @@ return {
                                     require("neo-tree.sources.filesystem").toggle_directory(state, node)
                                 end
                             else
-                                -- If it's a file, open it
+                                -- If it's a file, open it and close neo-tree
                                 require("neo-tree.sources.filesystem.commands").open(state)
+                                vim.cmd("Neotree close")
                             end
                         end,
-                        desc = "Expand directory or open file",
+                        desc = "Expand directory or open file and close neo-tree",
+                    },
+                    ["<cr>"] = {
+                        function(state)
+                            local node = state.tree:get_node()
+                            if node.type == "directory" then
+                                -- For directories, use default behavior (toggle)
+                                require("neo-tree.sources.filesystem").toggle_directory(state, node)
+                            else
+                                -- If it's a file, open it and close neo-tree
+                                require("neo-tree.sources.filesystem.commands").open(state)
+                                vim.cmd("Neotree close")
+                            end
+                        end,
+                        desc = "Open file and close neo-tree, or toggle directory",
                     },
                     ["h"] = {
                         function(state)
@@ -51,7 +70,14 @@ return {
             },
         })
         
-        -- Keymap to toggle neotree
-        vim.keymap.set('n', '<leader>e', ':Neotree toggle<CR>', { desc = 'Toggle Neo-tree' })
+        -- Keymap to toggle neotree with reveal
+        vim.keymap.set('n', '<leader>e', function()
+            local current_file = vim.fn.expand('%:p')
+            if current_file ~= '' then
+                vim.cmd('Neotree reveal')
+            else
+                vim.cmd('Neotree toggle')
+            end
+        end, { desc = 'Toggle Neo-tree and reveal current file' })
     end,
 }
