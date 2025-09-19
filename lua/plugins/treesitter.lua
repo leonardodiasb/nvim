@@ -30,6 +30,7 @@ return {
                     'svelte',
                     'sql',
                     'json',
+                    'embedded_template', -- For ERB files
                 },
 
                 -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)

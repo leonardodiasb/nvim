@@ -175,7 +175,9 @@ return {
                 rust_analyzer = {},
                 svelte = {},
                 ts_ls = {},
-                
+                rubocop = {
+                    cmd = { 'bundle', 'exec', 'rubocop', '--lsp' },
+                },
                 lua_ls = {
                     -- cmd = {...},
                     -- filetypes = { ...},
@@ -204,9 +206,9 @@ return {
             -- for you, so that they are available from within Neovim.
             local ensure_installed = vim.tbl_keys(servers or {})
             vim.list_extend(ensure_installed, {
-                'stylua',    -- Used to format Lua code
-                'codelldb',  -- Debugger for C/C++/Rust
-                'delve',     -- Go debugger
+                'stylua', -- Used to format Lua code
+                'codelldb', -- Debugger for C/C++/Rust
+                'delve', -- Go debugger
             })
             require('mason-tool-installer').setup({ ensure_installed = ensure_installed })
 
