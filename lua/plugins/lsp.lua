@@ -29,7 +29,27 @@ return {
             -- Allows extra capabilities provided by nvim-cmp
             'hrsh7th/cmp-nvim-lsp',
         },
-        config = function()
+        config = function() 
+            -- Configure diagnostics display (ADD THIS HERE)
+            vim.diagnostic.config({
+                virtual_text = {
+                    enabled = true,
+                    source = "if_many",
+                    prefix = "●",
+                },
+                signs = true,
+                underline = true,
+                update_in_insert = false,
+                severity_sort = true,
+                float = {
+                    focusable = false,
+                    style = "minimal",
+                    border = "rounded",
+                    source = "always",
+                    header = "",
+                    prefix = "",
+                },
+            })
             -- Brief aside: **What is LSP?**
             --
             -- LSP is an initialism you've probably heard, but might not understand what it is.
@@ -175,9 +195,7 @@ return {
                 rust_analyzer = {},
                 svelte = {},
                 ts_ls = {},
-                rubocop = {
-                    cmd = { 'bundle', 'exec', 'rubocop', '--lsp' },
-                },
+                ruby_lsp = {},
                 -- Note: erb_lint LSP is not available through Mason
                 -- ERB linting is handled through nvim-lint plugin instead
                 lua_ls = {
