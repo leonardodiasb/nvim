@@ -189,7 +189,7 @@ return {
             local servers = {
                 -- Language servers to be automatically installed and configured
                 cssls = {},
-                eslint = {},
+                eslint_d = {},
                 jsonls = {},
                 markdown_oxide = {},
                 rust_analyzer = {},

@@ -9,10 +9,10 @@ return {
             lint.linters_by_ft = {
                 eruby = { 'erb_lint' },
                 ruby = { 'rubocop' },
-                javascript = { 'eslint' },
-                typescript = { 'eslint' },
-                javascriptreact = { 'eslint' },
-                typescriptreact = { 'eslint' },
+                javascript = { 'eslint_d' },
+                typescript = { 'eslint_d' },
+                javascriptreact = { 'eslint_d' },
+                typescriptreact = { 'eslint_d' },
             }
             
             -- Custom erb_lint configuration

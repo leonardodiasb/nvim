@@ -33,10 +33,10 @@ return {
             end,
             formatters_by_ft = {
                 lua = { 'stylua' },
-                javascript = { 'prettier', 'eslint' },
-                javascriptreact = { 'prettier', 'eslint' },
-                typescript = { 'prettier', 'eslint' },
-                typescriptreact = { 'prettier', 'eslint' },
+                javascript = { 'prettierd', 'eslint_d' },
+                javascriptreact = { 'prettierd', 'eslint_d' },
+                typescript = { 'prettierd', 'eslint_d' },
+                typescriptreact = { 'prettierd', 'eslint_d' },
                 eruby = { 'erb_format' }, -- Only for .html.erb and .erb files
                 ruby = { 'rubocop' },
                 -- Conform can also run multiple formatters sequentially
@@ -49,14 +49,24 @@ return {
                 -- Custom erb formatter using htmlbeautifier gem
                 erb_format = {
                     command = 'htmlbeautifier',
-                    args = { 
-                        '--tab-stops', '4'  -- Use 4 spaces for indentation
+                    args = {
+                        '--tab-stops',
+                        '4', -- Use 4 spaces for indentation
                     },
                     stdin = true,
                 },
                 -- Configure prettier to use 4 spaces for JSON
-                prettier = {
-                    prepend_args = { '--tab-width', '4', '--use-tabs', 'false' },
+                prettier_d = {
+                    prepend_args = { },
+                },
+                -- Configure eslint_d for proper module handling
+                eslint_d = {
+                    args = {
+                        '--fix-to-stdout',
+                        '--stdin',
+                        '--stdin-filename',
+                        '$FILENAME',
+                    },
                 },
             },
         },
